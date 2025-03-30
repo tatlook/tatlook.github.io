@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <div style="height: 100%; width: 100%; display: block;">
+        <div style="height: 20%; width: 100%; display: block;">
+            <label id="successCount"></label>
+            <label id="failureCount"></label>
+        </div>
+        <div id=TheClock style="color: green; width: 100%; height: 80%; display: block;">
+            <button id="clicker" style="width: 100%; height: 100%; display: block; position: absolute;"></button> 
+        </div>
+    </div>
+<script>
+let secounds = 10
+let clicker = document.getElementById("clicker")
+let failureCount = 0
+let successCount = 0
+var intervalID = 0
+
+function initSecound() {
+    secounds = 10
+    document.getElementById("successCount").innerText = successCount.toString()
+    document.getElementById("failureCount").innerText = failureCount.toString()
+    clicker.innerText = secounds.toString()
+    clicker.removeEventListener("click", initSecound)
+    clicker.addEventListener("click", success)
+    clicker.style.backgroundColor = 
+    intervalID = setInterval(() => {
+        secounds -= 1
+        clicker.innerText = secounds.toString()
+        if (secounds <= 0) {
+            fail()
+        }
+    }, 1000)
+}
+
+function cleanUp() {
+    clearInterval(intervalID)
+    clicker.removeEventListener("click", success)
+}
+
+function success() {
+    cleanUp()
+    successCount ++
+    initSecound()
+}
+
+function fail() {
+    cleanUp()
+    failureCount ++
+    clicker.innerText = "Failed"
+    clicker.addEventListener("click", initSecound)
+}
+
+initSecound()
+</script>
+</body>
+</html>
